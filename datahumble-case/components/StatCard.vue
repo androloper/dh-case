@@ -1,19 +1,22 @@
 <template>
-  <div :class="`rounded-xl p-4 flex items-center space-x-4 ${bgClass}`">
-    <div class="w-10 h-10 rounded-full flex items-center justify-center bg-white shadow">
+  <div class="flex items-center rounded-3xl p-6 bg-white">
+    <div class="w-36 h-36 flex items-center justify-center rounded-2xl shadow mr-4" :style="`background: ${bgClass}`">
       <slot name="icon" />
     </div>
-    <div>
-      <div class="text-xs text-gray-500 font-medium">{{ title }}</div>
-      <div class="text-xl font-bold">{{ value }}</div>
+    <div class="flex flex-col space-y-16">
+      <div class="text-3xl font-medium">{{ formatted }}</div>
+      <div class="text-sm">{{ title }}</div>
     </div>
   </div>
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue'
+import { formatValue } from '~/utils/formatValue.js'
+const props = defineProps({
   title: String,
   value: [String, Number],
   bgClass: String
 })
+const formatted = computed(() => formatValue(props.value))
 </script>
