@@ -1,5 +1,4 @@
 export function formatValue(value) {
-    console.log(value);
     if (value>0 && value<1000) {
         return `${value.toFixed(2)}`
     } else if (value <= 999999999999 && value > 999999999) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
+  <div class="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-4 overflow-hidden pb-4">
     <!-- Main Content -->
     <div class="space-y-6">
       <!-- Game Title -->
@@ -30,29 +30,27 @@
         </StatCard>
       </div>
 
-      <!-- Performance -->
-      <div class="bg-white rounded-xl shadow p-4">
-        <div class="font-semibold text-sm text-gray-700 mb-2">Performance</div>
+      <!-- Performance and Description -->
+      <div class="bg-white rounded-xl p-4">
         <PerformanceChart :chartData="performanceChartData" />
-      </div>
+        <div class="bg-gray rounded-xl p-4">
+          <DescriptionBlock :description="overview?.description" />
+        </div>
 
-      <!-- Description -->
-      <DescriptionBlock :description="overview?.description" />
+      </div> 
     </div>
 
     <!-- Right Sidebar -->
-    <div class="space-y-4">
-      <!-- Short Description -->
-      <div class="bg-white rounded-xl shadow p-4">
-        <div class="font-semibold text-sm text-gray-700 mb-2">Short Description</div>
-        <p class="text-xs text-gray-500 leading-relaxed">{{ overview?.description }}</p>
+    <div class="space-y-2 w-full w-[400px] pr-4">
+      <!-- Short Description and Stream Performance -->
+      <div class="bg-white rounded-xl p-6 h-auto">
+        <h2 class="text-base font-semibold pb-2">Short Description</h2>
+        <p class="text-xs text-gray-500 leading-relaxed break-words pb-3">{{ overview?.description }} {{ overview?.description }} {{ overview?.description }}</p>
+         <StreamPerformance
+            :streamCounts="stream?.dailyStreamCounts"
+            :stats="stream"
+          />
       </div>
-
-      <!-- Stream Performance -->
-      <StreamPerformance
-        :streamCounts="stream?.dailyStreamCounts"
-        :stats="stream"
-      />
     </div>
   </div>
 </template>
@@ -62,10 +60,13 @@ import StatCard from '~/components/StatCard.vue'
 import PerformanceChart from '~/components/PerformanceChart.vue'
 import DescriptionBlock from '~/components/DescriptionBlock.vue'
 import StreamPerformance from '~/components/StreamPerformance.vue'
+import { useApi } from '~/composables/useApi'
 
-const { data: overview } = await useFetch('https://dhcase-mockapi.vercel.app/api/game/578080/overview')
-const { data: performance } = await useFetch('https://dhcase-mockapi.vercel.app/api/game/578080/performance')
-const { data: stream } = await useFetch('https://dhcase-mockapi.vercel.app/api/game/578080/stream')
+const api = useApi()
+
+const { data: overview } = await api.getOverview()
+const { data: performance } = await api.getPerformance()
+const { data: stream } = await api.getStream()
 
 const performanceChartData = computed(() => {
   if (!performance.value) return { labels: [], datasets: [] }

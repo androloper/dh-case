@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <aside class="h-full w-64 bg-white shadow-md flex flex-col justify-between rounded-lg">
+  <aside class="h-full w-64 bg-white shadow flex flex-col justify-between rounded-lg">
     <div>
       <!-- Logo -->
       <div class="px-8 pt-12 pb-8">
